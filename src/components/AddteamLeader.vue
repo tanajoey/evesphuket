@@ -4,7 +4,7 @@
             <Navbar />
             <v-main>
                 <div>
-                    dashboard
+                    addteam
                 </div>
             </v-main>
         </v-app>
@@ -14,9 +14,9 @@
 <script>
 import Navbar from './Navbar.vue'
 export default {
-    name: "Dash_board",
+    name: "AddTeamLeader",
     components: {
-        Navbar,
+        Navbar
     },
     // data() {
 
