@@ -4,10 +4,7 @@
             <v-container fluid fill-height>
                 <v-layout align-center justify-center>
                     <v-flex xs12 sm8 md4>
-                        <div class="imgLogo">
-                            <img alt="Vue logo" src="../assets/logo.png">
-                        </div>
-                        <h3>ระบบครุภัณฑ์คอมพิวเตอร์ สำนักงานสาธารณสุขจังหวัดพังงา</h3>
+                        <h3>backend eve's</h3>
                         <v-card class="elevation-12">
                             <v-toolbar dark color="primary">
                                 <v-toolbar-title>เข้าสู่ระบบ</v-toolbar-title>
@@ -32,6 +29,7 @@
 </template>
  
 <script>
+import { HTTP } from '@/axios.js';
 export default {
     name: "Log_in",
     data() {
@@ -41,10 +39,21 @@ export default {
         };
     },
     methods: {
-        login() {
-            const { username } = this;
-            this.$router.replace({ name: "dashboard", params: { username: username } });
+        async login() {
+            await HTTP.get('${baseURL}')
+                .then(res => {
+                    if (res.data.success) {
+                        this.customer = res.data.data
+                    }
+                })
+                .catch(e => {
+                    console.log(e);
+                });
         }
+        // login() {
+        //     const { username } = this;
+        //     this.$router.replace({ name: "dashboard", params: { username: username } });
+        // }
     },
 };
 </script>
@@ -53,6 +62,7 @@ export default {
     max-width: 100px;
     margin: 0 auto;
 }
+
 .imgLogo img {
     width: 100%;
 }

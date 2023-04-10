@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <v-toolbar color="primary" dark fixed app>
-            <v-toolbar-title>ระบบครุภัณฑ์คอมพิวเตอร์ สำนักงานสาธารณสุขจังหวัดพังงา</v-toolbar-title>
+            <v-toolbar-title>backend eve's</v-toolbar-title>
         </v-toolbar>
         <v-navigation-drawer permanent>
             <v-list>
