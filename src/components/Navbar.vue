@@ -1,14 +1,19 @@
 <template>
-    <div id="app">
-        <v-toolbar color="primary" dark fixed app>
-            <v-toolbar-title>backend eve's</v-toolbar-title>
-        </v-toolbar>
+    <div id="navbar">
         <v-navigation-drawer permanent>
             <v-list>
+                <!-- <v-list-item class="px-2">
+          <v-list-item-avatar>
+            <v-img
+              src="https://randomuser.me/api/portraits/women/85.jpg"
+            ></v-img>
+          </v-list-item-avatar>
+        </v-list-item> -->
+
                 <v-list-item link>
                     <v-list-item-content>
                         <v-list-item-title class="text-h6">
-                            {{ username || 'Username' }}
+                            {{ username || "Username" }}
                         </v-list-item-title>
                         <v-list-item-subtitle v-on:click="logout">log out</v-list-item-subtitle>
                     </v-list-item-content>
@@ -16,18 +21,30 @@
             </v-list>
 
             <v-divider></v-divider>
-
-            <v-list dense nav>
-                <v-list-item v-for="item in items" :key="item.title" link :to="item.route">
+            <v-list-group no-action v-for="navLink in navLinks" :key="navLink.text">
+                <v-list-item slot="activator" :to="navLink.route">
                     <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
+                        <v-icon>{{ navLink.icon }}</v-icon>
                     </v-list-item-icon>
-
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item-content>
+                    <v-list-item-title>{{ navLink.text }}</v-list-item-title>
                 </v-list-item>
-            </v-list>
+                <v-list-item class="submenu" v-for="sub in navLink.subLinks" :key="sub.text" :to="sub.route">
+                    <v-list-item-icon>
+                        <v-icon>{{ sub.icon }}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>{{ sub.text }}</v-list-item-title>
+                </v-list-item>
+            </v-list-group>
+            <!-- <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list> -->
         </v-navigation-drawer>
     </div>
 </template>
@@ -36,17 +53,51 @@ export default {
     name: "Nav_bar",
     data() {
         return {
-            items: [
-                { title: 'Dashboard', icon: 'mdi-view-dashboard',route:'/dashboard' },
-                { title: 'Photos', icon: 'mdi-image',route:'/AddteamLeader' },
+            navLinks: [
+                { icon: "mdi-view-dashboard", text: "ภาพรวม", route: "/dashboard" },
+                {
+                    icon: "mdi-list-box",
+                    text: "รายการสินค้า",
+                    route: "",
+                    subLinks: [
+                        { icon: "mdi-list-box", text: "รายการสินค้า", route: "/Adduser" }, 
+                        { icon: "mdi-format-list-bulleted-type", text: "หมวดหมู่", route: "/AddType" },
+                        { icon: "mdi-cart-percent", text: "โปรโมชั่น", route: "/AddType" }
+                    ],
+                },
+                {
+                    icon: "mdi-cog",
+                    text: "ตั้งค่า",
+                    route: "",
+                    subLinks: [
+                        { icon: "mdi-file-account", text: "เพิ่มผู้ใช้งาน", route: "/AddSale" }, 
+                        { icon: "mdi-steam", text: "รายการลูกทีม", route: "/AddListSale" },
+                    ],
+                },
             ],
-            username: this.$route.params.username
-        }
+            username: this.$route.params.username,
+        };
     },
     methods: {
         logout() {
-            this.$router.replace({ name: 'login' })
-        }
-    }
-}
+            this.$router.replace({ name: "login" });
+        },
+    },
+};
 </script>
+<style>
+.mdi-chevron-down::before {
+    content: "" !important;
+}
+
+.mdi-chevron-down {
+    display: none !important;
+}
+
+.v-list-group, .v-list-group__items {
+    text-align: left;
+}
+.submenu .v-list-item__icon{
+    margin-left: 0 !important;
+}
+</style>

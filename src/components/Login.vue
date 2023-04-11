@@ -29,32 +29,34 @@
 </template>
  
 <script>
-import { HTTP } from '@/axios.js';
+// import axios from "axios";
 export default {
-    name: "Log_in",
-    data() {
-        return {
-            username: "",
-            password: "",
-        };
-    },
-    methods: {
-        async login() {
-            await HTTP.get('${baseURL}')
-                .then(res => {
-                    if (res.data.success) {
-                        this.customer = res.data.data
-                    }
-                })
-                .catch(e => {
-                    console.log(e);
-                });
+  name: "Log_in",
+  data() {
+    return {
+      username: "",
+      password: "",
+      message: "OK",
+    };
+  },
+  methods: {
+    login() {
+            const { username } = this;
+            this.$router.replace({ name: "dashboard", params: { username: username } });
         }
-        // login() {
-        //     const { username } = this;
-        //     this.$router.replace({ name: "dashboard", params: { username: username } });
-        // }
-    },
+    // async login() {
+    //   await axios({
+    //     method: "post",
+    //     url: "http://192.168.10.68/project/pnalist/login.php",
+    //     data: {
+    //       username: this.username,
+    //       password: this.password,
+    //     },
+    //   }).then(function (response) {
+    //     console.log(response);
+    //   });
+    // },
+  },
 };
 </script>
 <style scoped>

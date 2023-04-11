@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
-import Dashboard from '../components/Dashboard.vue'
+import dashboard from '../components/Dashboard.vue'
 import AddteamLeader from '../components/AddteamLeader.vue'
+import AddListSale from '../components/AddListSale.vue'
+import AddSale from '../components/AddSale.vue'
 
 Vue.use(VueRouter)
 
@@ -14,13 +16,25 @@ const routes = [{
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: Dashboard,
+        component: dashboard,
         props: {}
     },
     {
         path: '/AddteamLeader',
         name: 'AddteamLeader',
         component: AddteamLeader,
+        props: {}
+    },
+    {
+        path: '/AddSale',
+        name: 'AddSale',
+        component: AddSale,
+        props: {}
+    },
+    {
+        path: '/AddListSale',
+        name: 'AddListSale',
+        component: AddListSale,
         props: {}
     }
 ]

@@ -1,5 +1,5 @@
 <template>
-    <div id="addteam">
+    <div id="dashboard">
         <v-app app>
             <toolBar />
             <v-card>
@@ -7,7 +7,7 @@
                     <Navbar />
                     <v-main>
                         <div>
-                            addteam
+                            addlistsale
                         </div>
                     </v-main>
                 </v-layout>
@@ -21,7 +21,7 @@ import Navbar from './Navbar.vue'
 import toolBar from './toolBar.vue'
 
 export default {
-    name: "AddTeamLeader",
+    name: "list_sale",
     components: {
         Navbar,
         toolBar
