@@ -60,7 +60,7 @@ export default {
                     text: "ตั้งค่า",
                     route: "",
                     subLinks: [
-                        { icon: "mdi-file-account", text: "เพิ่มผู้ใช้งาน", route: "/AddSale" }, 
+                        { icon: "mdi-file-account", text: "ผู้ใช้งาน", route: "/AddSale" }, 
                         { icon: "mdi-steam", text: "รายการลูกทีม", route: "/AddListSale" },
                     ],
                 },

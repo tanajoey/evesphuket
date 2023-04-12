@@ -47,4 +47,17 @@ nav {
 .container {
   padding: 0 !important;
 }
+
+.paddingPage {
+  padding-top: 0;
+  padding-left: 23px;
+  padding-right: 23px;
+  padding-bottom: 20px;
+}
+
+.btnadd {
+  position: absolute;
+  right: 0;
+  margin-right: 16px;
+}
 </style>
