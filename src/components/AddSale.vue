@@ -1,57 +1,68 @@
 <template>
-    <div id="dashboard">
-        <v-app app>
+    <div id="AddSale">
+        <v-app>
             <toolBar />
             <v-card>
                 <v-layout fill-height>
                     <Navbar />
                     <v-main>
                         <cardtitle>
-                            <h2><v-icon>mdi-file-account</v-icon>ผู้ใช้งาน</h2>
-                            <div class="btnadd">
-                                <v-btn tile color="success">
-                                    <v-icon left>
-                                        mdi-pencil
-                                    </v-icon>
-                                    เพิ่มผู้ใช้
-                                </v-btn>
-                            </div>
+                            <h2><v-icon>mdi-file-account</v-icon>เพิ่มผู้ใช้</h2>
                         </cardtitle>
-                        <v-breadcrumbs :items="items">
+                        <v-breadcrumbs :items="breadcrumb">
                             <template v-slot:divider>
                                 <v-icon>mdi-chevron-right</v-icon>
                             </template>
                         </v-breadcrumbs>
 
-                        <!-- <div class="paddingPage">
-                            <form>
-                                <v-text-field v-model="name" :error-messages="nameErrors" :counter="10" label="Name"
-                                    required @input="$v.name.$touch()" @blur="$v.name.$touch()"></v-text-field>
-                                <v-text-field v-model="email" :error-messages="emailErrors" label="E-mail" required
-                                    @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-                                <v-select v-model="select" :items="items" :error-messages="selectErrors" label="Item"
-                                    required @change="$v.select.$touch()" @blur="$v.select.$touch()"></v-select>
-                                <v-checkbox v-model="checkbox" :error-messages="checkboxErrors" label="Do you agree?"
-                                    required @change="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()"></v-checkbox>
-
-                                <v-btn class="mr-4" @click="submit">
-                                    submit
-                                </v-btn>
-                                <v-btn @click="clear">
-                                    clear
-                                </v-btn>
-                            </form>
-                        </div> -->
                         <div class="paddingPage">
-                            <v-card>
-                                <v-card-title>
-                                    ผู้ใช้งานทั้งหมด
-                                    <v-spacer></v-spacer>
-                                    <v-text-field v-model="search" append-icon="mdi-magnify" label="ค้นหา" single-line
-                                        hide-details></v-text-field>
-                                </v-card-title>
-                                <v-data-table :headers="headers" :items="desserts" :search="search"></v-data-table>
-                            </v-card>
+                            <!-- @submit.prevent="addUser()" -->
+                            <form ref="form">
+                                <v-container>
+                                    <v-row>
+                                        <v-col cols="12" md="6">
+                                            <v-text-field v-model="firstName" name="firstName" label="ชื่อ" type="text"
+                                                placeholder="ชื่อ" required></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <v-text-field v-model="lastName" name="lastName" label="สกุล" type="text"
+                                                placeholder="สกุล" required></v-text-field>
+                                        </v-col>
+
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12" md="6">
+                                            <v-text-field v-model="user" name="user" label="ชื่อผู้ใช้" type="text"
+                                                placeholder="ชื่อผู้ใช้" required></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <v-text-field v-model="password" name="password" label="รหัสผ่าน"
+                                                type="password" placeholder="รหัสผ่าน" :counter="8" required></v-text-field>
+                                        </v-col>
+
+                                    </v-row>
+                                    <v-row>
+                                        <v-col cols="12" md="6">
+                                            <v-text-field v-model="email" name="email" label="อีเมล" type="text"
+                                                placeholder="อีเมล" required></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <v-select v-model="select" :items="status" label="สถานะการใช้งาน"
+                                                required></v-select>
+                                        </v-col>
+
+                                    </v-row>
+                                    <v-btn class="mr-4" @click="addUser">
+                                        บันทึก
+                                    </v-btn>
+                                    <v-btn @click="clear">
+                                        ยกเลิก
+                                    </v-btn>
+                                </v-container>
+                            </form>
                         </div>
                     </v-main>
                 </v-layout>
@@ -61,6 +72,7 @@
 </template>
     
 <script>
+import axios from "axios";
 import Navbar from './Navbar.vue'
 import toolBar from './toolBar.vue'
 import cardtitle from './cardTitle.vue'
@@ -72,116 +84,63 @@ export default {
         toolBar,
         cardtitle
     },
+
     data: () => ({
-        items: [
+        breadcrumb: [
             {
                 text: 'ตั้งค่า',
                 disabled: true,
+                href: ''
             },
             {
                 text: 'ผู้ใช้งาน',
+                disabled: false,
+                href: 'listUser',
+            },
+            {
+                text: 'เพิ่มผู้ใช้',
                 disabled: true,
+                href: '',
             },
         ],
+        status: [
+            'ใช้งาน',
+            'ไม่ใช้งาน',
+        ],
+        firstName: '',
+        lastName: '',
+        user: '',
+        password: '',
+        email: ''
     }),
-    // return {
-    //     search: '',
-    //     headers: [
-    //         {
-    //             text: 'Dessert (100g serving)',
-    //             align: 'start',
-    //             sortable: false,
-    //             value: 'name',
-    //         },
-    //         { text: 'Calories', value: 'calories' },
-    //         { text: 'Fat (g)', value: 'fat' },
-    //         { text: 'Carbs (g)', value: 'carbs' },
-    //         { text: 'Protein (g)', value: 'protein' },
-    //         { text: 'Iron (%)', value: 'iron' },
-    //     ],
-    //     desserts: [
-    //         {
-    //             name: 'Frozen Yogurt',
-    //             calories: 159,
-    //             fat: 6.0,
-    //             carbs: 24,
-    //             protein: 4.0,
-    //             iron: 1,
-    //         },
-    //         {
-    //             name: 'Ice cream sandwich',
-    //             calories: 237,
-    //             fat: 9.0,
-    //             carbs: 37,
-    //             protein: 4.3,
-    //             iron: 1,
-    //         },
-    //         {
-    //             name: 'Eclair',
-    //             calories: 262,
-    //             fat: 16.0,
-    //             carbs: 23,
-    //             protein: 6.0,
-    //             iron: 7,
-    //         },
-    //         {
-    //             name: 'Cupcake',
-    //             calories: 305,
-    //             fat: 3.7,
-    //             carbs: 67,
-    //             protein: 4.3,
-    //             iron: 8,
-    //         },
-    //         {
-    //             name: 'Gingerbread',
-    //             calories: 356,
-    //             fat: 16.0,
-    //             carbs: 49,
-    //             protein: 3.9,
-    //             iron: 16,
-    //         },
-    //         {
-    //             name: 'Jelly bean',
-    //             calories: 375,
-    //             fat: 0.0,
-    //             carbs: 94,
-    //             protein: 0.0,
-    //             iron: 0,
-    //         },
-    //         {
-    //             name: 'Lollipop',
-    //             calories: 392,
-    //             fat: 0.2,
-    //             carbs: 98,
-    //             protein: 0,
-    //             iron: 2,
-    //         },
-    //         {
-    //             name: 'Honeycomb',
-    //             calories: 408,
-    //             fat: 3.2,
-    //             carbs: 87,
-    //             protein: 6.5,
-    //             iron: 45,
-    //         },
-    //         {
-    //             name: 'Donut',
-    //             calories: 452,
-    //             fat: 25.0,
-    //             carbs: 51,
-    //             protein: 4.9,
-    //             iron: 22,
-    //         },
-    //         {
-    //             name: 'KitKat',
-    //             calories: 518,
-    //             fat: 26.0,
-    //             carbs: 65,
-    //             protein: 7,
-    //             iron: 6,
-    //         },
-    //     ],
-    // }
+    computed: {
+    },
+    methods: {
+        async addUser() {
+            await axios({
+                method: "post",
+                url: "http://localhost/project/evesphuketapi/addSale.php",
+                data: {
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    user: this.user,
+                    password: this.password,
+                    email: this.email,
+                    status: this.status,
+                },
+            }).then(function (response) {
+                console.log(response);
+            });
+        },
+        clear() {
+            this.firstName = ''
+            this.lastName = ''
+            this.user = ''
+            this.password = '',
+                this.email = '',
+                this.status = null
+        },
+    },
 }
 </script>
 <style>

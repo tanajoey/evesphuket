@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import dashboard from '../components/Dashboard.vue'
 import AddListSale from '../components/AddListSale.vue'
 import AddSale from '../components/AddSale.vue'
+import listUser from '../components/listUser.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,12 @@ const routes = [{
         path: '/AddListSale',
         name: 'AddListSale',
         component: AddListSale,
+        props: {}
+    },
+    {
+        path: '/listUser',
+        name: 'listUser',
+        component: listUser,
         props: {}
     }
 ]
