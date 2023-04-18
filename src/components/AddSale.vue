@@ -16,8 +16,8 @@
                         </v-breadcrumbs>
 
                         <div class="paddingPage">
-                            <!-- @submit.prevent="addUser()" -->
-                            <form ref="form">
+                            <!-- @submit.prevent="addUser" -->
+                            <form ref="form" >
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12" md="6">
@@ -50,15 +50,18 @@
                                         </v-col>
 
                                         <v-col cols="12" md="6">
-                                            <v-select v-model="select" :items="status" label="สถานะการใช้งาน"
+                                            <v-select v-model="selectedStatus" :items="status" item-text="title"
+                                                item-value="id" return-object label="สถานะการใช้งาน" name="status"
                                                 required></v-select>
                                         </v-col>
 
                                     </v-row>
+                                    <!-- @click="addUser" -->
                                     <v-btn class="mr-4" @click="addUser">
                                         บันทึก
                                     </v-btn>
-                                    <v-btn @click="clear">
+                                    <!-- @click="resetForm" -->
+                                    <v-btn @click="resetForm">
                                         ยกเลิก
                                     </v-btn>
                                 </v-container>
@@ -104,20 +107,31 @@ export default {
             },
         ],
         status: [
-            'ใช้งาน',
-            'ไม่ใช้งาน',
+            {
+                id: '1',
+                title: 'ใช้งาน',
+            },
+            {
+                id: '2',
+                title: 'ไม่ใช้งาน',
+            },
         ],
         firstName: '',
         lastName: '',
         user: '',
         password: '',
-        email: ''
+        email: '',
+        selectedStatus: null,
+        // selectedStatus: {
+        //     id: '2',
+        //     title: 'ไม่ใช้งาน',
+        // },
     }),
     computed: {
     },
     methods: {
-        async addUser() {
-            await axios({
+        addUser() {
+            axios({
                 method: "post",
                 url: "http://localhost/project/evesphuketapi/addSale.php",
                 data: {
@@ -126,19 +140,24 @@ export default {
                     user: this.user,
                     password: this.password,
                     email: this.email,
-                    status: this.status,
+                    status: this.selectedStatus.id,
                 },
             }).then(function (response) {
-                console.log(response);
-            });
+                if(response.data.err === true){
+                    alert('บันทึกไม่สำเร็จ');
+                }else{
+                    alert('บันทึกสำเร็จ');
+                }
+                this.resetForm();
+            }.bind(this));
         },
-        clear() {
+        resetForm() {
             this.firstName = ''
             this.lastName = ''
             this.user = ''
             this.password = '',
-                this.email = '',
-                this.status = null
+            this.email = '',
+            this.selectedStatus = null
         },
     },
 }
