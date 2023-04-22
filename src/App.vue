@@ -60,4 +60,10 @@ nav {
   right: 0;
   margin-right: 16px;
 }
+.dialogAlert{
+  font-size: 35px;
+}
+.v-dialog > .v-card > .v-card__text{
+  padding-bottom: 0 !important;
+}
 </style>
